@@ -1,22 +1,14 @@
 require_relative 'person'
 
 class Student < Person
-  def initialize(name = 'Unknown', age = nil, parent_permission = true, classroom)
-    super(name, age, parent_permission)
+  attr_reader :classroom
+
+  def initialize(name = 'Unknown', age = 0, parent_permission: true, classroom: 'Unknown')
+    super(name, age, parent_permission: parent_permission)
     @classroom = classroom
   end
 
   def play_hooky
-    '¯\\(ツ)/¯'
-  end
-
-  def can_use_services?
-    of_age? || @parent_permission
-  end
-
-  private
-
-  def of_age?
-    @age.to_i >= 18
+    '¯(ツ)/¯'
   end
 end
