@@ -1,12 +1,23 @@
-class Person
+class Nameable
+  def correct_name
+    raise NotImplementedError, 'Subclass must implement "correct_name" method'
+  end
+end
+
+class Person < Nameable
   attr_accessor :name, :age
   attr_reader :id
 
   def initialize(name = 'Unknown', age = 0, parent_permission: true)
+    super()
     @id = rand(1000)
     @name = name
     @age = age
     @parent_permission = parent_permission
+  end
+
+  def correct_name
+    name
   end
 
   private
