@@ -14,7 +14,6 @@ puts teacher.name
 puts teacher.age
 puts teacher.can_use_services?
 
-
 person = Person.new('maximilianus', 22)
 puts person.correct_name
 
