@@ -145,32 +145,8 @@ class App
     end
   end
 
-  def run
-    loop do
-      display_menu
-
-      option = gets.chomp.to_i
-
-      case option
-      when 1
-        list_books
-      when 2
-        list_people
-      when 3
-        create_person
-      when 4
-        create_book
-      when 5
-        create_rental
-      when 6
-        list_rentals_for_person
-      when 7
-        break
-      else
-        puts 'Invalid option'
-      end
-
-      puts "\n"
-    end
+  def exit_app
+    puts 'Exiting the app...'
+    exit
   end
 end
