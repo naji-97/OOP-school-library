@@ -99,30 +99,51 @@ class App
 
   def create_rental
     puts 'Create a Rental'
-    puts 'Enter person ID:'
-    person_id = gets.chomp.to_i
 
-    person = @people.find { |p| p.id == person_id }
-    unless person
-      puts 'Invalid person ID'
-      return
-    end
+    puts 'Select a book from the following list by number:'
+    display_books
+    book_number = gets.chomp.to_i
 
-    puts 'Enter book title:'
-    book_title = gets.chomp
-
-    book = @books.find { |b| b.title == book_title }
+    book = @books[book_number]
     unless book
-      puts 'Invalid book title'
+      puts 'Invalid book number'
       return
     end
 
-    puts 'Enter rental date (YYYY-MM-DD):'
+    puts 'Select a person from the following list by number:'
+    display_people
+    person_number = gets.chomp.to_i
+
+    person = @people[person_number]
+    unless person
+      puts 'Invalid person number'
+      return
+    end
+
+    puts 'Enter rental date (YYYY/MM/DD):'
     date = gets.chomp
 
     rental = Rental.new(date, book, person)
     @rentals << rental
     puts 'Rental created successfully'
+  end
+
+  def display_books
+    @books.each_with_index do |book, index|
+      puts "#{index}) Title: \"#{book.title}\", Author: #{book.author}"
+    end
+  end
+
+  def display_people
+    @people.each_with_index do |person, index|
+      if person.is_a?(Teacher)
+        puts "#{index}) [Teacher] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+      elsif person.is_a?(Student)
+        puts "#{index}) [Student] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+      else
+        puts "#{index}) Person Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+      end
+    end
   end
 
   def list_rentals_for_person
