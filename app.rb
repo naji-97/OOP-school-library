@@ -97,35 +97,39 @@ class App
     puts 'Book created successfully'
   end
 
-  def create_rental
-    puts 'Create a Rental'
-
+  def book_number
     puts 'Select a book from the following list by number:'
     display_books
-    book_number = gets.chomp.to_i
+    gets.chomp.to_i
+  end
 
-    book = @books[book_number]
-    unless book
-      puts 'Invalid book number'
-      return
-    end
-
+  def person_number
     puts 'Select a person from the following list by number:'
     display_people
-    person_number = gets.chomp.to_i
+    gets.chomp.to_i
+  end
 
-    person = @people[person_number]
-    unless person
-      puts 'Invalid person number'
-      return
-    end
-
-    puts 'Enter rental date (YYYY/MM/DD):'
+  def create_rental
+    book_number = book_number_from_user
+    person_number = person_number_from_user
+    puts 'Enter rental date (YYYY-MM-DD):'
     date = gets.chomp
 
-    rental = Rental.new(date, book, person)
+    rental = Rental.new(date, @books[book_number], @people[person_number])
     @rentals << rental
     puts 'Rental created successfully'
+  end
+
+  def book_number_from_user
+    puts 'Select a book from the following list by number:'
+    display_books
+    gets.chomp.to_i
+  end
+
+  def person_number_from_user
+    puts 'Select a person from the following list by number:'
+    display_people
+    gets.chomp.to_i
   end
 
   def display_books
@@ -147,17 +151,17 @@ class App
   end
 
   def list_rentals_for_person
-    puts 'List all rentals for a given person id'
-    puts 'Enter person ID:'
-    person_id = gets.chomp.to_i
+    puts 'Select a person from the following list by number:'
+    display_people
+    person_number = gets.chomp.to_i
 
-    person = @people.find { |p| p.id == person_id }
+    person = @people[person_number]
     unless person
-      puts 'Invalid person ID'
+      puts 'Invalid person number'
       return
     end
 
-    rentals = @rentals.select { |r| r.person == person }
+    rentals = @rentals.select { |rental| rental.person == person }
     if rentals.empty?
       puts "No rentals found for #{person.name}"
     else
