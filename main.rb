@@ -1,4 +1,37 @@
 require_relative 'app'
-require_relative 'entry_point'
+require_relative 'menu'
+app = App.new
+option_processor = Menu.new(app)
+loop do
+  app.display_menu
+  option = gets.chomp.to_i
+  option_processor.process_option(option)
+  puts "\n"
+end
 
-EntryPoint.new.main
+class Menu
+  def initialize(app)
+    @app = app
+  end
+
+  def process_option(option)
+    option_actions = {
+      1 => :list_books,
+      2 => :list_people,
+      3 => :create_person,
+      4 => :create_book,
+      5 => :create_rental,
+      6 => :list_rentals_for_person,
+      7 => :exit_app
+    }
+    if option_actions.key?(option)
+      @app.send(option_actions[option])
+    else
+      puts 'Invalid option'
+    end
+  end
+  # def exit_app7
+  #   puts 'Exiting the app...'
+  #   exit
+  # end
+end
